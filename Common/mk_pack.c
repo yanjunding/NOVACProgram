@@ -20,6 +20,16 @@ struct MKZYhdr
   unsigned long stoptime;
   double lat;
   double lon;
+  short altitude;
+  char measureidx;
+  char measurecnt;
+  short viewangle2;
+  short compassdir;
+  short tiltX;
+  short tiltY;
+  float temperature;
+  char coneangle;
+  unsigned short ADC[8];
 };
 
 struct MKZYhdr MKZY;
@@ -123,17 +133,17 @@ void PackSeg(unsigned char *utpek, long *kvar )
     i=BitsPrec(*incpy++);    
     if(i>curr)
       {
-        /* i har blivit för stort. Vi ska då titta bakåt så att
-           vi tjänar in plats bakåt också på att öka bitantalet */      
+        /* i har blivit fÃ¶r stort. Vi ska dÃ¥ titta bakÃ¥t sÃ¥ att
+           vi tjÃ¤nar in plats bakÃ¥t ocksÃ¥ pÃ¥ att Ã¶ka bitantalet */      
         if( a*(i-curr)>headsiz ) goto Fixat;
         
-        /* gå till fixat om det inte lönar sig att öka
-           bitantalet på den föregående gruppen */
+        /* gÃ¥ till fixat om det inte lÃ¶nar sig att Ã¶ka
+           bitantalet pÃ¥ den fÃ¶regÃ¥ende gruppen */
                
-        while(curr!=i)          /* det lönade sig att byta */
+        while(curr!=i)          /* det lÃ¶nade sig att byta */
           {
             len[curr]=a;
-            curr++;                     /* öka bitantalet */
+            curr++;                     /* Ã¶ka bitantalet */
           }
       }
   } while( a<*kvar && a<127 );
@@ -141,7 +151,7 @@ void PackSeg(unsigned char *utpek, long *kvar )
     
   WriteBits(a,curr,strt,utpek,bitnr);  
   *kvar -=a;
-  strt += a;                  /* öka strt */
+  strt += a;                  /* Ã¶ka strt */
   bitnr += a*curr+headsiz;
 }
 
